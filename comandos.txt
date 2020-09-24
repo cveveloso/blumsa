@@ -1,0 +1,3 @@
+// Comandos cmd cuando no encuentra controllers
+php artisan route:cache
+php artisan cache:clear

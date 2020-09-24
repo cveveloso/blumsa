@@ -1,0 +1,44 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminCategoryController;
+
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/home', function () {
+    return view('welcome');
+});
+
+//Language
+Route::get('/language/changelanguage/{lang}', [LanguageController::class, 'ChangeLanguage'])->name('/language/changelanguage');
+
+//Account
+Route::get('/account/authenticate', [AccountController::class, 'Authenticate'])->name('/account/authenticate');
+Route::post('/account/authenticate', [AccountController::class, 'Authenticate']);
+Route::get('/account/register', [AccountController::class, 'Register']);
+Route::post('/account/register', [AccountController::class, 'Register']);
+Route::get('/account/forgotpassword', [AccountController::class, 'ForgotPassword']);
+Route::get('/account/logout', [AccountController::class, 'Logout']);
+
+
+Route::get('/admin', [AdminController::class, 'Dashboard']);
+Route::get('/admin/dashboard', [AdminController::class, 'Dashboard']);
+Route::get('/admin/category', [AdminCategoryController::class, 'ListCategories'])->name('/admin/category');
+Route::get('/admin/category/add', [AdminCategoryController::class, 'AddCategory'])->name('/admin/category/addcategory');
