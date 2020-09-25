@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator, Hash, Auth;
-use App\Models\User;
+use App\Models\Account\User;
 
 class AccountController extends Controller
 {
 	public function __construct() {
-		$this->middleware('guest')->except(['Logout']);
+		$this->middleware('guest')->except(['Logout', 'Register']);
 	}
 
     public function Authenticate(Request $request) {
@@ -25,7 +25,9 @@ class AccountController extends Controller
 	    $validator = Validator::make($request->all(), $rules);
 	    
 	    if ($validator->fails()) {
-	    	return back()->withErrors($validator)
+	    	return back()
+	    		->withErrors($validator)
+	    		->withInput($request->except("password"))
 	    		->with('message', 'Se ha producido un error')
 	    		->with('typemessage', 'danger');
 	    }
@@ -37,6 +39,7 @@ class AccountController extends Controller
 	    	}
 	    	else {
 	    		return back()
+	    		->withInput($request->except("password"))
 	    		->with('message', 'Error en usuario y/o password')
 	    		->with('typemessage', 'danger');
 	    	}
@@ -59,7 +62,9 @@ class AccountController extends Controller
 	    $validator = Validator::make($request->all(), $rules);
 	    
 	    if ($validator->fails()) {
-	    	return back()->withErrors($validator)
+	    	return back()
+	    		->withInput($request->except('password', 'cpassword'))
+	    		->withErrors($validator)
 	    		->with('message', 'Se ha producido un error')
 	    		->with('typemessage', 'danger');
 	    }

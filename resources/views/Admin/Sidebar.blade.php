@@ -45,8 +45,8 @@
     </a>
     <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
       <div class="bg-orange py-2 collapse-inner rounded">
-        <a class="collapse-item" href="{{ url('/admin/category/') }}">@lang('admin.categories')</a>
-        <a class="collapse-item" href="{{ url('/admin/category/add') }}">@lang('admin.newcategory')</a>
+        <a class="collapse-item" href="{{ url('/admin/catalog/category/') }}">@lang('admin.categories')</a>
+        <a class="collapse-item" href="{{ url('/admin/catalog/category/add') }}">@lang('admin.newcategory')</a>
       </div>
     </div>
   </li>

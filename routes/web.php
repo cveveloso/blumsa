@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\Catalog\AdminCategoryController;
 
 
 /*
@@ -37,8 +37,9 @@ Route::post('/account/register', [AccountController::class, 'Register']);
 Route::get('/account/forgotpassword', [AccountController::class, 'ForgotPassword']);
 Route::get('/account/logout', [AccountController::class, 'Logout']);
 
-
+//Admin
 Route::get('/admin', [AdminController::class, 'Dashboard']);
 Route::get('/admin/dashboard', [AdminController::class, 'Dashboard']);
-Route::get('/admin/category', [AdminCategoryController::class, 'ListCategories'])->name('/admin/category');
-Route::get('/admin/category/add', [AdminCategoryController::class, 'AddCategory'])->name('/admin/category/addcategory');
+Route::get('/admin/catalog/category', [AdminCategoryController::class, 'ListCategories'])->name('/admin/catalog/category');
+Route::get('/admin/catalog/category/add', [AdminCategoryController::class, 'AddCategory'])->name('/admin/catalog/category/add');
+Route::post('/admin/catalog/category/add', [AdminCategoryController::class, 'AddCategory'])->name('/admin/catalog/category/add');
