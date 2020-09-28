@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\Catalog\AdminCategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +22,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Metodos de autenticacion
-Route::get('/login', 'connectController@getLogin');
-Route::get('/register', 'connectController@getRegister');
+Route::get('/home', function () {
+    return view('welcome');
+});
+
+//Language
+Route::get('/language/changelanguage/{lang}', [LanguageController::class, 'ChangeLanguage'])->name('/language/changelanguage');
+
+//Account
+Route::get('/account/authenticate', [AccountController::class, 'Authenticate'])->name('/account/authenticate');
+Route::post('/account/authenticate', [AccountController::class, 'Authenticate']);
+Route::get('/account/register', [AccountController::class, 'Register']);
+Route::post('/account/register', [AccountController::class, 'Register']);
+Route::get('/account/forgotpassword', [AccountController::class, 'ForgotPassword']);
+Route::get('/account/logout', [AccountController::class, 'Logout']);
+
+//Admin
+Route::get('/admin', [AdminController::class, 'Dashboard']);
+Route::get('/admin/dashboard', [AdminController::class, 'Dashboard']);
+Route::get('/admin/catalog/category', [AdminCategoryController::class, 'ListCategories'])->name('/admin/catalog/category');
+Route::get('/admin/catalog/category/add', [AdminCategoryController::class, 'AddCategory'])->name('/admin/catalog/category/add');
+Route::post('/admin/catalog/category/add', [AdminCategoryController::class, 'AddCategory'])->name('/admin/catalog/category/add');
