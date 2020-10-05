@@ -40,6 +40,10 @@ Route::get('/account/logout', [AccountController::class, 'Logout']);
 //Admin
 Route::get('/admin', [AdminController::class, 'Dashboard']);
 Route::get('/admin/dashboard', [AdminController::class, 'Dashboard']);
+
 Route::get('/admin/catalog/category', [AdminCategoryController::class, 'ListCategories'])->name('/admin/catalog/category');
 Route::get('/admin/catalog/category/add', [AdminCategoryController::class, 'AddCategory'])->name('/admin/catalog/category/add');
-Route::post('/admin/catalog/category/add', [AdminCategoryController::class, 'AddCategory'])->name('/admin/catalog/category/add');
+Route::post('/admin/catalog/category/save', [AdminCategoryController::class, 'AddCategory'])->name('/admin/catalog/category/save');
+Route::get('/admin/catalog/category/edit/{id}', [AdminCategoryController::class, 'EditCategory'])->name('/admin/catalog/category/edit/');
+Route::post('/admin/catalog/category/update/{id}', [AdminCategoryController::class, 'EditCategory'])->name('/admin/catalog/category/update/');
+//Route::get('/admin/catalog/category/delete/{id}', [AdminCategoryController::class, 'DeleteCategory'])->name('/admin/catalog/category/delete/{id}');

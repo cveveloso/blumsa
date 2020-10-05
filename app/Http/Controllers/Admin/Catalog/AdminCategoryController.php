@@ -4,22 +4,34 @@ namespace App\Http\Controllers\Admin\Catalog;
 
 use Illuminate\Http\Request;
 use Auth, Config, Validator, Str;
-use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Catalog\Category;
-use App\Models\Catalog\CategoryDescription;
+use App\Http\Controllers\BaseController;
+use App\Contracts\Catalog\CategoryContract;
 
 
-class AdminCategoryController extends Controller
-{
-	public function __construct() {
+class AdminCategoryController extends BaseController
+{    
+	public function __construct(CategoryContract $categoryRepository) {
 		$this->middleware('auth');
 		$this->middleware('validate.admin');
+		$this->categoryRepository = $categoryRepository;
 	}
+
+	public function ListCategories(Request $request) {
+    	$categories = $this->categoryRepository->ListCategories();
+		return view('Admin.Catalog.ListCategories', ['categories' => $categories]);
+    }
 
     public function AddCategory(Request $request) {
     	if ($request->method() == 'GET') {	
-			return view('Admin.Catalog.AddCategory');
+    		$categories = $this->categoryRepository->ListCategories('code', 'asc', ['code', 'id_category']);
+    		
+    		$comboCategories = array();
+    		$comboCategories['0'] =  'Sin categoría padre';
+    		foreach ($categories as $category) {
+    			$comboCategories[$category->id_category] =  $category->name;
+    		}
+
+			return view('Admin.Catalog.AddCategory', ['comboCategories' => $comboCategories]);
     	}
 
     	$rules = array();
@@ -31,40 +43,57 @@ class AdminCategoryController extends Controller
 
 		$validator = Validator::make($request->all(), $rules);
     
-	    if ($validator->fails()) {
-	    	return back()
-	    	->withInput()
-	    	->withErrors($validator)
-	    	->with('message', 'Error, faltan completar datos requeridos.')
-	    	->with('typemessage', 'danger');	
+	    if ($validator->fails()) {	    	
+	    	return $this->responseRedirectBack('Ocurrio un problema al guardar la categoría.', 'error', true, true, $validator->errors());
 	    }
-	    else {
-	    	try {       
-		    	$category = new Category;
-		    	$category->code = Str::slug(e($request->input('code')));
-		    	$category->slug = Str::slug(e($request->input('code')));
-		    	$category->status = 1;
-		    	$idCategory = $category->save();
-		    	$category->id_category = $idCategory;
-		    	
-		    	foreach(array_keys(Config::get('languages')) as $key) {
-		    		$categoryDesc = new CategoryDescription;
-					$categoryDesc->id_category = $category->id_category;
-					$categoryDesc->language = $key;
-					$categoryDesc->name = e($request->input('name-' . $key));
-					$categoryDesc->description = e($request->input('description-' . $key));
-					$categoryDesc->save();
-				}
+	    
+	    $params = $request->except('_token');
+	    $category = $this->categoryRepository->CreateCategory($params);		    	
 
-		    	return back()
-		    	->with('message', 'Categoría agregada con éxito.')
-		    	->with('typemessage', 'success');
-		    } 
-		    catch (Throwable $e) {
-		    	return back()
-		    	->with('message', $e)
-		    	->with('typemessage', 'danger');
-		    }
+		if (!$category) {
+           	return $this->responseRedirectBack('Ocurrio un problema al guardar la categoría.', 'error', true, true);
 		}
+        
+        return $this->responseRedirect('/admin/catalog/category/add', 'Categoría guardada con éxito.' ,'success', false, false);
+    }
+
+    public function EditCategory(Request $request, $id) {
+    	if ($request->method() == 'GET') {	
+    		$categoryEdit = $this->categoryRepository->FindCategoryById($id);
+
+    		$categories = $this->categoryRepository->ListCategories('code', 'asc', ['code', 'id_category']);
+    		
+    		$comboCategories = array();
+    		$comboCategories['0'] =  'Sin categoría padre';
+    		foreach ($categories as $category) {
+    			$comboCategories[$category->id_category] =  $category->name;
+    		}
+
+			return view('Admin.Catalog.EditCategory', [
+				'category' => $categoryEdit,
+				'comboCategories' => $comboCategories
+			]);
+    	}
+
+    	$rules = array();
+    	$rules['code'] = 'required';
+    	foreach(array_keys(Config::get('languages')) as $key) {
+			$rules['name-' . $key] = 'required';
+			$rules['description-' . $key] = 'required';
+		}
+
+		$validator = Validator::make($request->all(), $rules);
+    
+	    if ($validator->fails()) {	    	
+	    	return $this->responseRedirectBack('Ocurrio un problema al guardar la categoría.', 'error', true, true, $validator->errors());
+	    }
+	    
+	    $params = $request->except('_token');
+	    $category = $this->categoryRepository->UpdateCategory($id, $params);		    	
+
+		if (!$category) {
+           	return $this->responseRedirectBack('Ocurrio un problema al guardar la categoría.', 'error', true, true);
+		}        
+        return $this->responseRedirect('/admin/catalog/category/edit/', 'Categoría guardada con éxito.' ,'success', false, false, [$id]);
     }
 }
