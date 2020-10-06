@@ -35,7 +35,7 @@ class Category extends Model
 class CategoryDescription extends Model
 {
     protected $table = 'category_description';
-    protected $primaryKey = null;
-    public $incrementing = false; 
+    protected $primaryKey = 'id_category_description';
+    public $incrementing = true; 
 }
 

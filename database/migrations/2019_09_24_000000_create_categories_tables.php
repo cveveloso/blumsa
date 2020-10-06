@@ -26,6 +26,7 @@ class CreateCategoriesTables extends Migration
         });
 
         Schema::create('category_description', function (Blueprint $table) {
+            $table->id('id_category_description');
             $table->bigInteger('id_category')->unsigned();            
             $table->string('language');
             $table->string('name');

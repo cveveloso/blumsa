@@ -11,6 +11,10 @@
     <script type="text/javascript" src="{{ url('public/static/vendors/datatables/dataTables.min.js') }}"></script>    
 @endpush
 
+@section('toolbar')
+{!! Form::button('<a href="' . url('/admin/catalog/category/add') . '"><i class="fa fa-plus"></i></a>', ['class' => 'btn btn-primary']) !!}
+@stop
+
 @section('content')
 
 @php 

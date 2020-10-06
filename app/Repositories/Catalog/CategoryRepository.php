@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Catalog;
 
-use Config, Str;
+use Config, Str, Log;
 
 use App\Repositories\BaseRepository;
 use App\Contracts\Catalog\CategoryContract;
@@ -141,15 +141,15 @@ class CategoryRepository extends BaseRepository implements CategoryContract
                 $category->slug = Str::slug(e($params['code']));
                 $category->id_parent = $parent;
                 $category->level = $level;
-                $category->status = 1;                                 
+                $category->status = 1;                            
                 $category->update();
-                
-                foreach($category->Descriptions as $categoryDesc) {
-                    $categoryDesc = $category->Descriptions($key);
+
+                foreach(array_keys(Config::get('languages')) as $key) {
+                    $categoryDesc = $category->Descriptions($key);                    
                     $categoryDesc->name = e($params['name' . '-' .  $key]);
                     $categoryDesc->description = e($params['description' . '-' .  $key]);
                     $categoryDesc->update();
-                }
+                }                
             }
 
             return $category;

@@ -11,6 +11,12 @@
     <script type="text/javascript" src="{{ url('public/static/vendors/summernote/summernote.min.js') }}"></script>    
 @endpush
 
+@section('toolbar')
+{!! Form::open(['url' => '/admin/catalog/category/update/' . $category->id_category]) !!}
+{!! Form::button('<i class="far fa-save"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+{!! Form::button('<a href="' . url('/admin/catalog/category') . '"><i class="fa fa-undo"></i></a>', ['class' => 'btn btn-primary']) !!}
+@stop
+
 @section('content')
 
 @php 
@@ -18,12 +24,6 @@ $firstTab = 'active';
 $firstPanel = 'active show';
 @endphp
 
-{!! Form::open(['url' => '/admin/catalog/category/update/' . $category->id_category]) !!}
-<div class="row">
-	<div class="col-12 float-right text-right">
-		{!! Form::button('<i class="far fa-save"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
-	</div>
-</div>
 <div class="row">
 	<div class="col-md-3 col-xs-12">
 	    <div class="nav flex-column nav-pills" id="adminTab" role="tablist" aria-orientation="vertical">

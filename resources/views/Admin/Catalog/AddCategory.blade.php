@@ -11,6 +11,13 @@
     <script type="text/javascript" src="{{ url('public/static/vendors/summernote/summernote.min.js') }}"></script>    
 @endpush
 
+@section('toolbar')
+{!! Form::open(['url' => '/admin/catalog/category/save']) !!}
+{!! Form::button('<i class="far fa-save"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+{!! Form::button('<a href="' . url('/admin/catalog/category') . '"><i class="fa fa-undo"></i></a>', ['class' => 'btn btn-primary']) !!}
+@stop
+
+
 @section('content')
 
 @php 
@@ -18,12 +25,6 @@ $firstTab = 'active';
 $firstPanel = 'active show';
 @endphp
 
-{!! Form::open(['url' => '/admin/catalog/category/save']) !!}
-<div class="row">
-	<div class="col-12 float-right text-right">
-		{!! Form::button('<i class="far fa-save"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
-	</div>
-</div>
 <div class="row">
 	<div class="col-md-3 col-xs-12">
 	    <div class="nav flex-column nav-pills" id="adminTab" role="tablist" aria-orientation="vertical">
@@ -53,6 +54,19 @@ $firstPanel = 'active show';
 						<div class="input-group-text"><i class="fa fa-pencil-alt" aria-hidden="true"></i></div>			
 					</div>
 					{!! Form::select('parent', $comboCategories, null, ['class' =>'form-control'])  !!}
+				</div>
+
+				<label class="w-100 mt-2" for="sortorder">Orden: </label>
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<div class="input-group-text"><i class="fa fa-pencil-alt" aria-hidden="true"></i></div>		
+					</div>
+					{!! Form::number('sortorder', '0', ['class' =>'form-control'])  !!}
+				</div>
+				
+				<label class="float-left mt-2" for="status">Habilitado: </label>
+				<div class="input-group float-left w-50 mb-2">					
+					{!! Form::checkbox('status', false, ['class' =>'custom-control-input'])  !!}
 				</div>      			
       		</div>
       		<div class="tab-pane fade" id="panel-data" role="tabpanel" aria-labelledby="tab-data">
@@ -110,5 +124,3 @@ $firstPanel = 'active show';
 {!! Form::close() !!}
 
 @stop
-
-

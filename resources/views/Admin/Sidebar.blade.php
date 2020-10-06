@@ -39,16 +39,10 @@
 
   <!-- Nav Item - Utilities Collapse Menu -->
   <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-      <i class="fas fa-fw fa-wrench"></i>
+    <a class="nav-link" href="{{ url('/admin/catalog/category/') }}">
+      <i class="fas fa-fw fa-map"></i>
       <span>@lang('admin.categories')</span>
-    </a>
-    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-      <div class="bg-orange py-2 collapse-inner rounded">
-        <a class="collapse-item" href="{{ url('/admin/catalog/category/') }}">@lang('admin.categories')</a>
-        <a class="collapse-item" href="{{ url('/admin/catalog/category/add') }}">@lang('admin.newcategory')</a>
-      </div>
-    </div>
+    </a>    
   </li>
 
   <!-- Divider -->
