@@ -61,12 +61,17 @@ $firstPanel = 'active show';
 					<div class="input-group-prepend">
 						<div class="input-group-text"><i class="fa fa-pencil-alt" aria-hidden="true"></i></div>		
 					</div>
-					{!! Form::number('sortorder', '0', ['class' =>'form-control'])  !!}
+					{!! Form::number('sort_order', '0', ['class' =>'form-control' . ($errors->has('sort_order') ? ' border-danger' : '')])  !!}
 				</div>
+				@php 					
+			  	if ($errors->has('sort_order')) { 
+			  		echo '<span class="input-error text-danger w-100 mt-2">' . $errors->first('sort_order') . '</span>'; 
+			  	}
+			  	@endphp
 				
-				<label class="float-left mt-2" for="status">Habilitado: </label>
-				<div class="input-group float-left w-50 mb-2">					
-					{!! Form::checkbox('status', false, ['class' =>'custom-control-input'])  !!}
+				<label class="mt-2 float-left" for="status">Habilitado: </label>
+				<div class="input-group w-50 float-left ml-2 pt-2 mt-1">
+					{!! Form::checkbox('status', 'status', true, ['class' =>''])  !!}
 				</div>      			
       		</div>
       		<div class="tab-pane fade" id="panel-data" role="tabpanel" aria-labelledby="tab-data">

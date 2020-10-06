@@ -36,6 +36,7 @@ class AdminCategoryController extends BaseController
 
     	$rules = array();
     	$rules['code'] = 'required';
+    	$rules['sort_order'] = 'required|numeric';
     	foreach(array_keys(Config::get('languages')) as $key) {
 			$rules['name-' . $key] = 'required';
 			$rules['description-' . $key] = 'required';
@@ -77,6 +78,7 @@ class AdminCategoryController extends BaseController
 
     	$rules = array();
     	$rules['code'] = 'required';
+    	$rules['sort_order'] = 'required|numeric';
     	foreach(array_keys(Config::get('languages')) as $key) {
 			$rules['name-' . $key] = 'required';
 			$rules['description-' . $key] = 'required';

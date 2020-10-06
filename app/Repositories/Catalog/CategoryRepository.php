@@ -99,7 +99,8 @@ class CategoryRepository extends BaseRepository implements CategoryContract
             $category->slug = Str::slug(e($params['code']));
             $category->id_parent = $parent;
             $category->level = $level;
-            $category->status = 1;            
+            $category->status = (array_key_exists('status', $params) ? 1 : 0);
+            $category->sort_order = $params['sort_order'];
             $category->save();            
             
             foreach(array_keys(Config::get('languages')) as $key) {
@@ -141,7 +142,8 @@ class CategoryRepository extends BaseRepository implements CategoryContract
                 $category->slug = Str::slug(e($params['code']));
                 $category->id_parent = $parent;
                 $category->level = $level;
-                $category->status = 1;                            
+                $category->status = (array_key_exists('status', $params) ? 1 : 0);
+                $category->sort_order = $params['sort_order'];
                 $category->update();
 
                 foreach(array_keys(Config::get('languages')) as $key) {

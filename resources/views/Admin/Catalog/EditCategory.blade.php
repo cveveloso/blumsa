@@ -53,7 +53,25 @@ $firstPanel = 'active show';
 						<div class="input-group-text"><i class="fa fa-pencil-alt" aria-hidden="true"></i></div>			
 					</div>
 					{!! Form::select('parent', $comboCategories, old('parent', $category->id_parent), ['class' =>'form-control'])  !!}
-				</div>      			
+				</div>
+
+				<label class="w-100 mt-2" for="sortorder">Orden: </label>
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<div class="input-group-text"><i class="fa fa-pencil-alt" aria-hidden="true"></i></div>		
+					</div>
+					{!! Form::number('sort_order', old('sort_order', $category->sort_order), ['class' =>'form-control' . ($errors->has('sort_order') ? ' border-danger' : '')])  !!}
+				</div>
+				@php 					
+			  	if ($errors->has('sort_order')) { 
+			  		echo '<span class="input-error text-danger w-100 mt-2">' . $errors->first('sort_order') . '</span>'; 
+			  	}
+			  	@endphp
+				
+				<label class="mt-2 float-left" for="status">Habilitado: </label>
+				<div class="input-group w-50 float-left ml-2 pt-2 mt-1">
+					{!! Form::checkbox('status', 'status', old('status', ($category->status == 1 ? true : false)), ['class' =>''])  !!}
+				</div>   			
       		</div>
       		<div class="tab-pane fade" id="panel-data" role="tabpanel" aria-labelledby="tab-data">
       			<ul class="nav nav-tabs" id="langTab" role="tablist">
