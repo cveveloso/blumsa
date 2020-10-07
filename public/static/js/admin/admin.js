@@ -52,4 +52,16 @@ $( document ).ready(function() {
     e.preventDefault();
   });
 
+  if ($('#grid-data').length) {
+    $('#grid-data').dataTable({
+      paging: false,
+      searching: false,
+      ordering:  true
+    });
+  }
+
+  if ($('.summernote').length) {
+    $('.summernote').summernote();
+  }
+
 });

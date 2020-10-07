@@ -9683,6 +9683,10 @@ a.text-dark:hover, a.text-dark:focus {
   visibility: hidden !important;
 }
 
+.btn a {
+  color: #fff;
+}
+
 @media print {
   *,
   *::before,

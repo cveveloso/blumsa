@@ -10,9 +10,13 @@
 	<link rel="stylesheet" href="{{ url('static/vendors/bootstrap/css/bootstrap.min.css') }}" />
 	<link rel="stylesheet" href="{{ url('static/vendors/fontawesome/css/all.min.css') }}" />
 	<link rel="stylesheet" href="{{ url('static/css/admin/admin.css') }}" />
+  @stack('styles')
 
 	<script type="text/javascript" src="{{ url('static/vendors/jquery/jquery-3.3.1.min.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 	<script type="text/javascript" src="{{ url('static/vendors/bootstrap/js/bootstrap.min.js') }}"></script>
+  @stack('scripts')
+
   <script type="text/javascript" src="{{ url('static/js/admin/admin.js') }}"></script>
 </head>
 <body>
@@ -111,29 +115,16 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">@yield('headtitle')</h1>
+            <div class="text-right">
+            @section('toolbar')
+            @show
+            </div>
           </div>
 
           @section('content')
           @show          
 
-          @if(Session::has('message'))
-          <div class="container mt-4">
-            <div class="alert alert-{{ Session::get('typemessage') }}" role="alert" style="display: none;">
-              {{ Session::get('message') }}
-              @if ($errors->any())
-              <ul>
-                @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-              </ul>
-              @endif
-              <script>
-                $('.alert').slideDown();
-                setTimeout(function(){ $('.alert').slideUp(); }, 10000);
-              </script>
-            </div>
-          </div>
-          @endif
+          @include('Admin.Flash')
 
         </div>
         <!-- /.container-fluid -->
