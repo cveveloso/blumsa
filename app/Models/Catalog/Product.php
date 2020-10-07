@@ -4,21 +4,21 @@ namespace App\Models\Catalog;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Products extends Model
+class Product extends Model
 {
-    protected $table = 'products';
+    protected $table = 'product';
     protected $primaryKey = 'id_product';
     public $incrementing = true;
 
     public function Descriptions()
     {
-        return $this->hasMany('App\Models\Catalog\ProductsDescription', 'id_product', 'id_product');
+        return $this->hasMany(ProductDescription::class, 'id_product', 'id_product');
     }    
 }
 
-class ProductsDescription extends Model
+class ProductDescription extends Model
 {
-    protected $table = 'products_description';
+    protected $table = 'product_description';
     protected $primaryKey = null;
     public $incrementing = false;    
 }

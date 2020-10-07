@@ -4,11 +4,11 @@
 @section('headtitle', Lang::get('admin.newcategory'))
 
 @push('styles')
-    <link rel="stylesheet" href="{{ url('static/vendors/summernote/summernote.min.css') }}" />  
+    <link rel="stylesheet" href="{{ url('public/static/vendors/summernote/summernote.min.css') }}" />  
 @endpush
 
 @push('scripts')
-    <script type="text/javascript" src="{{ url('static/vendors/summernote/summernote.min.js') }}"></script>    
+    <script type="text/javascript" src="{{ url('public/static/vendors/summernote/summernote.min.js') }}"></script>    
 @endpush
 
 @section('toolbar')

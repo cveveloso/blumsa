@@ -7,17 +7,17 @@
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="routeName" content="{{ Route::currentRouteName() }}">
 
-	<link rel="stylesheet" href="{{ url('static/vendors/bootstrap/css/bootstrap.min.css') }}" />
-	<link rel="stylesheet" href="{{ url('static/vendors/fontawesome/css/all.min.css') }}" />
-	<link rel="stylesheet" href="{{ url('static/css/admin/admin.css') }}" />
+	<link rel="stylesheet" href="{{ url('public/static/vendors/bootstrap/css/bootstrap.min.css') }}" />
+	<link rel="stylesheet" href="{{ url('public/static/vendors/fontawesome/css/all.min.css') }}" />
+	<link rel="stylesheet" href="{{ url('public/static/css/admin/admin.css') }}" />
   @stack('styles')
 
-	<script type="text/javascript" src="{{ url('static/vendors/jquery/jquery-3.3.1.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url('public/static/vendors/jquery/jquery-3.3.1.min.js') }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-	<script type="text/javascript" src="{{ url('static/vendors/bootstrap/js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url('public/static/vendors/bootstrap/js/bootstrap.min.js') }}"></script>
   @stack('scripts')
 
-  <script type="text/javascript" src="{{ url('static/js/admin/admin.js') }}"></script>
+  <script type="text/javascript" src="{{ url('public/static/js/admin/admin.js') }}"></script>
 </head>
 <body>
 	  <!-- Page Wrapper -->

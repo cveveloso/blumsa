@@ -5,9 +5,9 @@ namespace App\Repositories\Catalog;
 use Config, Str, Log;
 
 use App\Repositories\BaseRepository;
-use App\Models\Catalog\Products;
-use App\Models\Catalog\ProductsDescription;
-use App\Contracts\Catalog\ProductsContract;
+use App\Contracts\Catalog\ProductContract;
+use App\Models\Catalog\Product;
+use App\Models\Catalog\ProductDescription;
 
 use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
@@ -15,7 +15,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 
-class ProductsRepository extends BaseRepository implements ProductsContract
+class ProductRepository extends BaseRepository implements ProductContract
 {
     use UploadAble;
 
@@ -25,10 +25,23 @@ class ProductsRepository extends BaseRepository implements ProductsContract
         $this->model = $model;
     }
 
+    /**
+     * @param string $order
+     * @param string $sort
+     * @param array $columns
+     * @return mixed
+     */
+    public function ListProducts(string $order = 'id_product', string $sort = 'desc', array $columns = ['*'], bool $descriptions = true)
+    {
+        $products = $this->all($columns, $order, $sort);
+        
+        return $products;    
+    }
+
     public function CreateProduct(array $params)
     {
         try {   
-            $products = new Products;
+            $products = new Product;
             $products->sku = Str::slug(e($params['sku']));
             $products->model = Str::slug(e($params['model']));
             $products->save();            

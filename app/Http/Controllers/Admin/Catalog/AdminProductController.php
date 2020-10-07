@@ -5,23 +5,22 @@ namespace App\Http\Controllers\Admin\Catalog;
 use Illuminate\Http\Request;
 use Auth, Config, Validator, Str;
 use App\Http\Controllers\BaseController;
-use App\Models\User;
 use App\Contracts\Catalog\CategoryContract;
-use App\Contracts\Catalog\ProductsContract;
+use App\Contracts\Catalog\ProductContract;
 
 class AdminProductController extends BaseController
 {
-	public function __construct(CategoryContract $categoryRepository,ProductsContract $productsRepository) {
+	public function __construct(CategoryContract $categoryRepository, ProductContract $productRepository) {
 		$this->middleware('auth');
 		$this->middleware('validate.admin');
 		$this->categoryRepository = $categoryRepository;		
-		$this->productsRepository = $productsRepository;		
+		$this->productRepository = $productRepository;		
 	}
 
-    public function listProducts(Request $request) {	
+    public function ListProducts(Request $request) {	
     	if ($request->method() == 'GET') {	
-			$products = new Products;
-			return view('Admin.Catalog.ListProduct',['products' => $products::all()]);
+    		$products = $this->productRepository->ListProducts();
+			return view('Admin.Catalog.ListProduct',['products' => $products]);
     	}
 	}
 	
@@ -59,7 +58,7 @@ class AdminProductController extends BaseController
 		// Validaciones end		
 
 	    $params = $request->except('_token');
-	    $products = $this->productsRepository->CreateProducts($params);		    	
+	    $products = $this->productsRepository->CreateProduct($params);		    	
 
 		if (!$products) {
            	return $this->responseRedirectBack('Ocurrio un problema al guardar el producto, TIBU!.', 'error', true, true);
