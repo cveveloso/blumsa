@@ -31,8 +31,8 @@
     </a>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-orage py-2 collapse-inner rounded">
-        <a class="collapse-item" href="buttons.html">@lang('admin.products')</a>
-        <a class="collapse-item" href="cards.html">@lang('admin.newproduct')</a>
+        <a class="collapse-item" href="{{ url('/admin/catalog/products/list') }}">@lang('admin.products')</a>
+        <a class="collapse-item" href="{{ url('/admin/catalog/products/add') }}">@lang('admin.newproduct')</a>
       </div>
     </div>
   </li>
