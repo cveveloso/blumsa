@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator, Hash, Auth;
-use App\Models\Account\User;
+use App\Models\User;
 
 class AccountController extends Controller
 {

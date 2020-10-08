@@ -55,7 +55,7 @@ $firstPanel = 'active show';
 					{!! Form::select('parent', $comboCategories, old('parent', $category->id_parent), ['class' =>'form-control'])  !!}
 				</div>
 
-				<label class="w-100 mt-2" for="sortorder">Orden: </label>
+				<label class="w-100 mt-2" for="sort_order">Orden: </label>
 				<div class="input-group mb-2">
 					<div class="input-group-prepend">
 						<div class="input-group-text"><i class="fa fa-pencil-alt" aria-hidden="true"></i></div>		

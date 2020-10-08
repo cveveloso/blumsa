@@ -126,7 +126,7 @@ class CategoryRepository extends BaseRepository implements CategoryContract
     public function UpdateCategory(int $id, array $params)
     {
         try {
-            $category = $this->findCategoryById($id);
+            $category = $this->FindCategoryById($id);
 
             if ($category != null) {
               
@@ -167,11 +167,11 @@ class CategoryRepository extends BaseRepository implements CategoryContract
      */
     public function DeleteCategory($id)
     {
-        $category = $this->findCategoryById($id);
+        $category = $this->FindCategoryById($id);
 
-        if ($category->image != null) {
+        /*if ($category->image != null) {
             $this->deleteOne($category->image);
-        }
+        }*/
 
         $category->delete();
 

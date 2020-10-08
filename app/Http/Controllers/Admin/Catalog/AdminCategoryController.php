@@ -98,4 +98,10 @@ class AdminCategoryController extends BaseController
 		}        
         return $this->responseRedirect('/admin/catalog/category/edit/', 'Categoría guardada con éxito.' ,'success', false, false, [$id]);
     }
+
+    public function DeleteCategory(Request $request, $id) {        
+        $categoryDel = $this->categoryRepository->DeleteCategory($id);
+
+        return $this->responseRedirect('/admin/catalog/category', 'Categoría eliminada con éxito.' ,'success', false, false);
+    }
 }

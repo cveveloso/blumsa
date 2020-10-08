@@ -45,6 +45,19 @@
     </a>    
   </li>
 
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAttributes" aria-expanded="true" aria-controls="collapseAttributes">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>@lang('admin.attributes')</span>
+    </a>
+    <div id="collapseAttributes" class="collapse" aria-labelledby="headingAttributes" data-parent="#accordionSidebar">
+      <div class="bg-orage py-2 collapse-inner rounded">
+        <a class="collapse-item" href="{{ url('/admin/catalog/attributegroup') }}">@lang('admin.attributegroups')</a>
+        <a class="collapse-item" href="{{ url('/admin/catalog/attribute') }}">@lang('admin.attributes')</a>
+      </div>
+    </div>
+  </li>
+
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">
 

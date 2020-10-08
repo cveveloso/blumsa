@@ -19,6 +19,12 @@ return [
     'products' => 'Products',
     'newproduct' => 'New product',
     'categories' => 'Categories',
-    'newcategory' => 'New category'
+    'newcategory' => 'New category',
+    'attributes' => 'Attributes',
+    'newattribute' => 'New attribute',
+    'editattribute' => 'Edit attribute',
+    'attributegroups' => 'Attributes groups',
+    'newattributegroup' => 'New attribute group',
+    'editattributegroup' => 'Edit attribute group',
 
 ];
