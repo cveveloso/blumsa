@@ -10,10 +10,21 @@ class Product extends Model
     protected $primaryKey = 'id_product';
     public $incrementing = true;
 
-    public function Descriptions()
+    public function Descriptions(string $language = null)
     {
-        return $this->hasMany(ProductDescription::class, 'id_product', 'id_product');
-    }    
+        if ($language != null) {
+            return $this->hasMany(ProductDescription::class, 'id_product', 'id_product')->where('language', '=', $language)->first();
+        }
+        return $this->hasMany(ProductDescription::class, 'id_product', 'id_product');        
+    }  
+    
+    public function Categories(int $id = null)
+    {
+        if ($id != null) {
+            return $this->hasMany(ProductCategory::class, 'id_product', 'id_product')->where('id_product', '=', $id)->first();
+        }
+        return $this->hasMany(ProductCategory::class, 'id_product', 'id_product');            
+    }
 }
 
 class ProductDescription extends Model
@@ -22,4 +33,14 @@ class ProductDescription extends Model
     protected $primaryKey = null;
     public $incrementing = false;    
 }
+
+class ProductCategory extends Model
+{
+    protected $table = 'product_categories';
+    protected $primaryKey = 'id_product_categories';
+    public $incrementing = true;
+    public $timestamps = false;
+}
+
+
 

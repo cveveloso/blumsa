@@ -25,17 +25,10 @@
 
   <!-- Nav Item - Pages Collapse Menu -->
   <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+    <a class="nav-link" href="{{ url('/admin/catalog/products/list') }}">
       <i class="fas fa-fw fa-cog"></i>
       <span>@lang('admin.products')</span>
     </a>
-    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-      <div class="bg-orage py-2 collapse-inner rounded">
-        <a class="collapse-item" href="{{ url('/admin/catalog/products/list') }}">@lang('admin.products')</a>
-        <a class="collapse-item" href="{{ url('/admin/catalog/products/add') }}">@lang('admin.newproduct')</a>
-      </div>
-    </div>
-  </li>
 
   <!-- Nav Item - Utilities Collapse Menu -->
   <li class="nav-item">

@@ -17,4 +17,6 @@ interface ProductContract
     public function ListProducts(string $order = 'id_product', string $sort = 'desc', array $columns = ['*']);
 
     public function CreateProduct(array $params);
+    public function FindProductById(int $id);
+    //public function UpdateProduct(int $id, array $params);
 }

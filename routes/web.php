@@ -53,3 +53,5 @@ Route::post('/admin/catalog/category/update/{id}', [AdminCategoryController::cla
 Route::get('/admin/catalog/products/list', [AdminProductController::class, 'ListProducts'])->name('/admin/catalog/products/list');
 Route::get('/admin/catalog/products/add', [AdminProductController::class, 'AddProducts'])->name('/admin/catalog/products/add');
 Route::post('/admin/catalog/products/save', [AdminProductController::class, 'AddProducts'])->name('/admin/catalog/products/save');
+Route::get('/admin/catalog/products/edit/{id}', [AdminProductController::class, 'EditProducts'])->name('/admin/catalog/products/edit/');
+Route::post('/admin/catalog/products/update/{id}', [AdminProductController::class, 'EditProducts'])->name('/admin/catalog/products/update/');
