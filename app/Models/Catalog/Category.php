@@ -30,6 +30,11 @@ class Category extends Model
     {
         return $this->belongsTo(Category::class, 'id_parent');
     }
+
+    public function Images()
+    {
+        return $this->hasMany(CategoryImage::class, 'id_category', 'id_category');
+    }
 }
 
 class CategoryDescription extends Model
@@ -37,5 +42,14 @@ class CategoryDescription extends Model
     protected $table = 'category_description';
     protected $primaryKey = 'id_category_description';
     public $incrementing = true; 
+}
+
+class CategoryImage extends Model
+{
+    protected $table = 'category_image';
+    protected $primaryKey = 'id_category_image';
+    public $incrementing = true; 
+    
+    protected $fillable = ['id_category'];
 }
 

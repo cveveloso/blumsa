@@ -1,7 +1,7 @@
 @extends('Admin.Master')
 
-@section('title', Lang::get('admin.newproduct'))
-@section('headtitle', Lang::get('admin.newproduct'))
+@section('title', Lang::get('admin.editproduct'))
+@section('headtitle', Lang::get('admin.editproduct'))
 
 @push('styles')
     <link rel="stylesheet" href="{{ url('public/static/vendors/summernote/summernote.min.css') }}" />  
@@ -12,8 +12,29 @@
 @endpush
 
 @section('toolbar')
-{!! Form::open(['url' => '/admin/catalog/products/save']) !!}	
-{!! Form::button('<i class="far fa-save"></i>', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+{!! Form::open(['url' => '/admin/catalog/products/update/'. $product->id_product]) !!}	
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEdit"><i class="far fa-save"></i></button>
+
+<div class="modal" id="modalEdit" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmacion</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>¿Seguro desea actualizar el producto?</p>
+        </div>
+        <div class="modal-footer">
+          {!! Form::button('Aceptar', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 @stop
 
 @section('content')
@@ -30,7 +51,7 @@ $firstPanel = 'active show';
 				  <h5 class="card-title card-custom-title">Sku y categoria</h5>
 					<div class="form-group">
 						<label class="control-label" for="sku">SKU</label>
-						{!! Form::text('sku', null, ['class' => 'form-control' . ($errors->has('sku') ? ' border-danger' : '')]) !!}					
+						{!! Form::text('sku', old('code', $product->sku), ['class' => 'form-control' . ($errors->has('sku') ? ' border-danger' : '')]) !!}					
 						<div class="invalid-feedback active">
 							<i class="fa fa-exclamation-circle fa-fw"></i>
 						</div>
@@ -41,7 +62,7 @@ $firstPanel = 'active show';
 						<div class="invalid-feedback active">
 							<i class="fa fa-exclamation-circle fa-fw"></i>
 						</div>
-					</div>											  
+					</div>										  
 				</div>
 			</div>			
 		</div>
@@ -53,7 +74,7 @@ $firstPanel = 'active show';
 				  <h5 class="card-title card-custom-title">Modelo, nombre y descripción</h5>	
 				  <div class="form-group">
 					<label class="control-label" for="modelo">Modelo</label>
-					{!! Form::text('modelo', null, ['class' => 'form-control' . ($errors->has('modelo') ? ' border-danger' : '')]) !!}					
+					{!! Form::text('modelo', old('code', $product->model), ['class' => 'form-control' . ($errors->has('modelo') ? ' border-danger' : '')]) !!}					
 					<div class="invalid-feedback active">
 						<i class="fa fa-exclamation-circle fa-fw"></i>
 					</div>
@@ -67,29 +88,30 @@ $firstPanel = 'active show';
 					$firstTab = '';
 					@endphp
 					@endforeach
-				  </ul>	
+                  </ul>	
 				  <div class="tab-content" id="langTabContent">	
-					@foreach(array_keys(Config::get('languages')) as $key)		
-						<div class="tab-pane fade {{ $firstPanel }}" id="panel-{{$key}}" role="tabpanel" aria-labelledby="tab-{{$key}}">  
+					@for($i = 0; $i < $productDescription->count(); $i++)		
+                        <?php $lang = $productDescription[$i]->language; ?>
+						<div class="tab-pane fade {{ $firstPanel }}" id="panel-{{$lang}}" role="tabpanel" aria-labelledby="tab-{{$lang}}">  
 							<div class="form-group">
 								<label class="control-label" for="modelo">Nombre</label>
-								{!! Form::text('name-' . $key, null, ['class' => 'form-control' . ($errors->has('name' . $key) ? ' border-danger' : '')]) !!}					
+								{!! Form::text('name-' . $lang, old('code', $productDescription[$i]->name), ['class' => 'form-control' . ($errors->has('name' . $lang) ? ' border-danger' : '')]) !!}					
 								<div class="invalid-feedback active">
 									<i class="fa fa-exclamation-circle fa-fw"></i>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="modelo">Descripcion</label>
-								{!! Form::textarea('description-' . $key, null, ['class' =>'form-control w-100 summernote' . ($errors->has('description-' . $key) ? ' border-danger' : ''), 'rows' => 4]) !!}
+								{!! Form::textarea('description-' . $lang, old('code', $productDescription[$i]->description), ['class' =>'form-control w-100 summernote' . ($errors->has('description-' . $lang) ? ' border-danger' : ''), 'rows' => 4]) !!}
 								<div class="invalid-feedback active">
 									<i class="fa fa-exclamation-circle fa-fw"></i>
 								</div>
 							</div>
-						</div>
+                        </div>                                                
 						@php 
 						$firstPanel = '';
 						@endphp						
-					@endforeach	
+					@endfor
 				  </div>											
 				</div>
 			</div>				

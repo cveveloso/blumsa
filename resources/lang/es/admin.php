@@ -18,6 +18,7 @@ return [
     'catalog' => 'Catálogo',
     'products' => 'Productos',
     'newproduct' => 'Nuevo producto',
+    'editproduct' => 'Editar producto',
     'categories' => 'Categorías',
     'newcategory' => 'Nueva categoría',
     'editcategory' => 'Editar categoría',

@@ -49,6 +49,9 @@ Route::post('/admin/catalog/category/save', [AdminCategoryController::class, 'Ad
 Route::get('/admin/catalog/category/edit/{id}', [AdminCategoryController::class, 'EditCategory'])->name('/admin/catalog/category/edit/');
 Route::post('/admin/catalog/category/update/{id}', [AdminCategoryController::class, 'EditCategory'])->name('/admin/catalog/category/update/');
 Route::get('/admin/catalog/category/delete/{id}', [AdminCategoryController::class, 'DeleteCategory'])->name('/admin/catalog/category/delete/');
+Route::post('/admin/catalog/category/images/upload', [AdminCategoryController::class, 'UploadImagesCategory'])->name('/admin/catalog/category/images/upload');
+Route::post('/admin/catalog/category/images/delete/{id}', [AdminCategoryController::class, 'DeleteImagesCategory'])->name('/admin/catalog/category/images/delete');
+           
 //Admin (Attribute group)
 Route::get('/admin/catalog/attributegroup', [AdminAttributeController::class, 'ListAttributeGroups'])->name('/admin/catalog/attributegroup');
 Route::get('/admin/catalog/attributegroup/add', [AdminAttributeController::class, 'AddAttributeGroup'])->name('/admin/catalog/attributegroup/add');
@@ -67,3 +70,5 @@ Route::get('/admin/catalog/attribute/delete/{id}', [AdminAttributeController::cl
 Route::get('/admin/catalog/products/list', [AdminProductController::class, 'ListProducts'])->name('/admin/catalog/products/list');
 Route::get('/admin/catalog/products/add', [AdminProductController::class, 'AddProducts'])->name('/admin/catalog/products/add');
 Route::post('/admin/catalog/products/save', [AdminProductController::class, 'AddProducts'])->name('/admin/catalog/products/save');
+Route::get('/admin/catalog/products/edit/{id}', [AdminProductController::class, 'EditProducts'])->name('/admin/catalog/products/edit/');
+Route::post('/admin/catalog/products/update/{id}', [AdminProductController::class, 'EditProducts'])->name('/admin/catalog/products/update/');

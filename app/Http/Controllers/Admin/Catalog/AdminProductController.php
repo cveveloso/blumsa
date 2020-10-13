@@ -58,12 +58,60 @@ class AdminProductController extends BaseController
 		// Validaciones end		
 
 	    $params = $request->except('_token');
-	    $products = $this->productsRepository->CreateProduct($params);		    	
+	    $products = $this->productRepository->CreateProduct($params);		    	
 
 		if (!$products) {
-           	return $this->responseRedirectBack('Ocurrio un problema al guardar el producto, TIBU!.', 'error', true, true);
+           	return $this->responseRedirectBack('Ocurrio un problema al guardar el producto.', 'error', true, true);
 		}
         
         return $this->responseRedirect('/admin/catalog/products/add', 'Producto guardado con éxito.' ,'success', false, false);		
+	}	
+	
+    public function EditProducts(Request $request, $id) {		
+    	if ($request->method() == 'GET') {	
+			$productsEdit = $this->productRepository->FindProductById($id);
+			$productsEditDescription = $this->productRepository->FindProductDescriptionById($id);
+
+			$categories = $this->categoryRepository->ListCategories('code', 'asc', ['code', 'id_category']);
+    		
+    		$comboCategories = array();
+    		$comboCategories['0'] =  'Sin categoría padre';
+    		foreach ($categories as $category) {
+    			$comboCategories[$category->id_category] =  $category->name;
+			}
+			
+			return view('Admin.Catalog.EditProducts', [
+				'product' => $productsEdit,
+				'productDescription'=> $productsEditDescription,
+				'comboCategories' => $comboCategories
+			]);						
+		}
+		
+		// Validaciones begin
+		$rules = array();
+		$rules['sku'] = 'required';
+		$rules['category'] = 'required';
+		$rules['modelo'] = 'required';
+
+    	foreach(array_keys(Config::get('languages')) as $key) {
+			$rules['name-' . $key] = 'required';
+			$rules['description-' . $key] = 'required';
+		}		
+
+		$validator = Validator::make($request->all(), $rules);
+
+	    if ($validator->fails()) {	    	
+	    	return $this->responseRedirectBack('Ocurrio un problema al guardar el nuevo producto.', 'error', true, true, $validator->errors());
+	    }		
+		// Validaciones end		
+		
+	    $params = $request->except('_token');
+	    $products = $this->productRepository->UpdateProduct($id,$params);		    	
+
+		if (!$products) {
+           	return $this->responseRedirectBack('Ocurrio un problema al actualizar el producto.', 'error', true, true);
+		}
+        
+        return $this->responseRedirect('/admin/catalog/products/edit/', 'Producto actualizado con éxito.' ,'success', false, false,[$id]);				
     }	
 }

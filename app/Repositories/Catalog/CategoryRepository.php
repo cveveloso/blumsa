@@ -8,6 +8,7 @@ use App\Repositories\BaseRepository;
 use App\Contracts\Catalog\CategoryContract;
 use App\Models\Catalog\Category;
 use App\Models\Catalog\CategoryDescription;
+use App\Models\Catalog\CategoryImage;
 
 use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;

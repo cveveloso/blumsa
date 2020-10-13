@@ -11235,3 +11235,11 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+.card-custom-title {
+  color: #2C3357;
+  font-size: 1.42em;
+  font-weight: 500;
+  line-height: 28px;
+  margin-bottom: 10px;
+}

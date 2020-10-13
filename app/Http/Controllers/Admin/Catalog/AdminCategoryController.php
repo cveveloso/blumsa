@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use Auth, Config, Validator, Str;
 use App\Http\Controllers\BaseController;
 use App\Contracts\Catalog\CategoryContract;
-
+use App\Models\Catalog\CategoryImage;
+use App\Traits\UploadAble;
 
 class AdminCategoryController extends BaseController
-{    
+{ 
+    use UploadAble;
+
 	public function __construct(CategoryContract $categoryRepository) {
 		$this->middleware('auth');
 		$this->middleware('validate.admin');
@@ -103,5 +106,23 @@ class AdminCategoryController extends BaseController
         $categoryDel = $this->categoryRepository->DeleteCategory($id);
 
         return $this->responseRedirect('/admin/catalog/category', 'Categoría eliminada con éxito.' ,'success', false, false);
+    }
+
+    public function UploadImagesCategory(Request $request) {
+         $category = $this->categoryRepository->FindCategoryById($request->category);
+
+         if($category) {
+            if ($request->has('image')) {
+
+                $image = $this->uploadOne($request->image, 'category');
+
+                $categoryImage = new CategoryImage();
+                $categoryImage->path = $image;
+
+                $category->Images()->save($categoryImage);
+            }
+        }
+
+        return response()->json(['status' => 'Success']);
     }
 }
