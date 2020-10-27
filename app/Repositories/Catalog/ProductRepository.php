@@ -9,6 +9,9 @@ use App\Contracts\Catalog\ProductContract;
 use App\Models\Catalog\Product;
 use App\Models\Catalog\ProductDescription;
 use App\Models\Catalog\ProductCategory;
+use App\Models\Catalog\ProductImage;
+use App\Models\Catalog\ProductAttributeGroup;
+use App\Models\Catalog\ProductAttribute;
 
 use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
@@ -128,6 +131,27 @@ class ProductRepository extends BaseRepository implements ProductContract
             throw new ModelNotFoundException($e);
         }
     }  
+
+    public function ListGroupAttribute()
+    {
+        try {                        
+            $product = new ProductAttributeGroup;
+            $productGroupAttribute = $product->all();
+            return $productGroupAttribute;
+        } catch (ModelNotFoundException $e) {
+            throw new ModelNotFoundException($e);
+        }
+    }  
+
+    public function ListAttribute()
+    {
+        try {                        
+            $productAttribute = ProductAttribute::select('attribute.id_attribute','attribute.id_attribute_group','attribute_description.language','attribute_description.name')->join('attribute_description', 'attribute.id_attribute', '=', 'attribute_description.id_attribute')->get();
+            return $productAttribute;
+        } catch (ModelNotFoundException $e) {
+            throw new ModelNotFoundException($e);
+        } 
+    }
     
     public function FindProductCategoryById(int $id)
     {

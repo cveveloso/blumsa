@@ -7,14 +7,18 @@ use Auth, Config, Validator, Str;
 use App\Http\Controllers\BaseController;
 use App\Contracts\Catalog\CategoryContract;
 use App\Contracts\Catalog\ProductContract;
+use App\Models\Catalog\ProductImage;
+use App\Traits\UploadAble;
 
 class AdminProductController extends BaseController
 {
+	use UploadAble;
+	
 	public function __construct(CategoryContract $categoryRepository, ProductContract $productRepository) {
 		$this->middleware('auth');
 		$this->middleware('validate.admin');
 		$this->categoryRepository = $categoryRepository;		
-		$this->productRepository = $productRepository;		
+		$this->productRepository = $productRepository;			
 	}
 
     public function ListProducts(Request $request) {	
@@ -24,17 +28,23 @@ class AdminProductController extends BaseController
     	}
 	}
 	
+	
 	public function AddProducts(Request $request) {
     	if ($request->method() == 'GET') {	
 			//para llenar el combo de categorias begin
     		$categories = $this->categoryRepository->ListCategories('code', 'asc', ['code', 'id_category']);
-    		
+			$atributesGroup = $this->productRepository->ListGroupAttribute();
+			$atributes = $this->productRepository->ListAttribute();
+			
     		$comboCategories = array();
     		foreach ($categories as $category) {
     			$comboCategories[$category->id_category] =  $category->name;
 			}
 			//para llenar el combo de categorias end	
-			return view('Admin.Catalog.AddProducts',['comboCategories' => $comboCategories]);
+			return view('Admin.Catalog.AddProducts',['comboCategories' => $comboCategories,
+			'listGroupAttribute' => $atributesGroup,
+			'listAttribute' => $atributes
+			]);
 		}
 		
 		// Validaciones begin
@@ -113,5 +123,23 @@ class AdminProductController extends BaseController
 		}
         
         return $this->responseRedirect('/admin/catalog/products/edit/', 'Producto actualizado con éxito.' ,'success', false, false,[$id]);				
-    }	
+	}
+	
+    public function UploadImagesProduct(Request $request) {
+		$product = $this->productRepository->FindProductById($request->product);
+
+		if($product) {
+		   if ($request->has('image')) {
+
+			   $image = $this->uploadOne($request->image, 'product');
+
+			   $productImage = new ProductImage();
+			   $productImage->path = $image;
+
+			   $product->Images()->save($productImage);
+		   }
+	   }
+
+	   return response()->json(['status' => 'Success']);
+   }	
 }

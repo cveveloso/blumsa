@@ -4,11 +4,13 @@
 @section('headtitle', Lang::get('admin.editproduct'))
 
 @push('styles')
-    <link rel="stylesheet" href="{{ url('public/static/vendors/summernote/summernote.min.css') }}" />  
+	<link rel="stylesheet" href="{{ url('public/static/vendors/summernote/summernote.min.css') }}" />  
+	<link rel="stylesheet" href="{{ url('public/static/vendors/dropzone/dist/dropzone.css') }}" />  	
 @endpush
 
 @push('scripts')
-    <script type="text/javascript" src="{{ url('public/static/vendors/summernote/summernote.min.js') }}"></script>    
+	<script type="text/javascript" src="{{ url('public/static/vendors/summernote/summernote.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url('public/static/vendors/dropzone/dist/dropzone.js') }}"></script>	    
 @endpush
 
 @section('toolbar')
@@ -127,6 +129,46 @@ $firstPanel = 'active show';
 		</div>
 	</div>		
 	{!! Form::close() !!}		
+
+	<div class="row mt-4">
+		<div class="col-12">	
+			<div class="card">
+				<div class="card-body">
+					<div class="tab-pane fade" id="panel-images" role="tabpanel" aria-labelledby="tab-images" style="opacity:1">
+							<h5 class="card-title card-custom-title">Imagenes</h5>		
+							<div class="form-group">
+								<label class="control-label" for="modelo">Adjuntar o arrastrar y soltar</label>
+									{!! Form::open(['url' => '/admin/catalog/products/images/upload', 'class' => 'dropzone', 'id' => 'dropzone']) !!}
+										{{ Form::hidden('product', $product->id_product) }}
+									{!! Form::close() !!}
+							</div>
+							<div class="form-group mt-2">
+								<div class="col-12 text-right">
+									<button class="btn btn-success" type="button" id="btn-upload">
+										<i class="fa fa-fw fa-lg fa-upload"></i>Subir
+									</button>
+								</div>
+							</div>
+							@if ($product->Images)							
+							<hr>
+							<div class="form-group">
+								@foreach($product->Images as $image)
+								<div class="card" style="max-width: 250px;">
+									<div class="card-body">
+										<img src="{{ url('/storage/app/public') . "/". $image->path }}" class="img-fluid" alt="img">
+										<a class="card-link float-right text-danger" href="{{ url('/admin/catalog/category/images/delete/') }}">
+											<i class="fa fa-fw fa-lg fa-trash"></i>
+										</a>
+									</div>
+								</div>
+								@endforeach															
+							</div>	
+							@endif					
+					</div>	
+				</div>
+			</div>
+		</div>	
+	</div>		
 </div>
 @stop
 

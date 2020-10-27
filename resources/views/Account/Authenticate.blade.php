@@ -3,9 +3,11 @@
 @section('title', 'Ingreso')
 
 @section('content')
-<div class="card w-50 p-2">
+<div class="form-signin">
 	{!! Form::open(['url' => '/account/authenticate']) !!}
-	<label for="email">Email: </label>
+	<div class="text-center mb-4">
+		<img class="mb-4" src="https://www.blumsa.com/App_Common/Image/logoBlum.jpg">										
+	</div>			
 	<div class="input-group mb-2">
 		<div class="input-group-prepend">
 			<div class="input-group-text"><i class="fa fa-at" aria-hidden="true"></i></div>			
@@ -13,7 +15,6 @@
 		{!! Form::email('email', null, ['class' =>'form-control']) !!}
 	</div>
 
-	<label for="password">Password: </label>
 	<div class="input-group mb-2">
 		<div class="input-group-prepend">
 			<div class="input-group-text"><i class="fas fa-lock" aria-hidden="true"></i></div>			

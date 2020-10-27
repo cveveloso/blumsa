@@ -1,8 +1,19 @@
+body{
+  background-color: #e96a28 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40px auto;
+}
+
 .form-signin {
   width: 100%;
-  max-width: 330px;
-  padding: 15px;
+  max-width: 500px;
   margin: auto;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 30px;  
+  vertical-align: center;
 }
 .form-signin .checkbox {
   font-weight: 400;
@@ -39,4 +50,7 @@
 .customBtnLogin{
     background-color: #e96a28 !important;
     border-color: #e96a28 !important;
+}
+.customFondoRegister{
+  background-color: #e96a28 !important;
 }

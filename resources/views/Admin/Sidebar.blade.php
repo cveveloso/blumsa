@@ -29,6 +29,13 @@
       <i class="fas fa-fw fa-cog"></i>
       <span>@lang('admin.products')</span>
     </a>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-orage py-2 collapse-inner rounded">
+        <a class="collapse-item" href="{{ url('/admin/catalog/products/list') }}">@lang('admin.products')</a>
+        <a class="collapse-item" href="{{ url('/admin/catalog/products/add') }}">@lang('admin.newproduct')</a>
+      </div>
+    </div>
+  </li>
 
   <!-- Nav Item - Utilities Collapse Menu -->
   <li class="nav-item">
@@ -36,6 +43,19 @@
       <i class="fas fa-fw fa-map"></i>
       <span>@lang('admin.categories')</span>
     </a>    
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAttributes" aria-expanded="true" aria-controls="collapseAttributes">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>@lang('admin.attributes')</span>
+    </a>
+    <div id="collapseAttributes" class="collapse" aria-labelledby="headingAttributes" data-parent="#accordionSidebar">
+      <div class="bg-orage py-2 collapse-inner rounded">
+        <a class="collapse-item" href="{{ url('/admin/catalog/attributegroup') }}">@lang('admin.attributegroups')</a>
+        <a class="collapse-item" href="{{ url('/admin/catalog/attribute') }}">@lang('admin.attributes')</a>
+      </div>
+    </div>
   </li>
 
   <!-- Divider -->

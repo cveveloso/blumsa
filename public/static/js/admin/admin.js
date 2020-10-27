@@ -1,3 +1,5 @@
+Dropzone.autoDiscover = false;
+
 $( document ).ready(function() {
 
   // Toggle the side navigation
@@ -62,6 +64,30 @@ $( document ).ready(function() {
 
   if ($('.summernote').length) {
     $('.summernote').summernote();
+  }
+
+  if ($('.dropzone').length) {
+    let myDropzone = new Dropzone("#dropzone", {
+        paramName: "image",
+        addRemoveLinks: false,
+        maxFilesize: 1,
+        parallelUploads: 1,
+        uploadMultiple: false,
+        autoProcessQueue: false
+    });
+    
+    myDropzone.on("queuecomplete", function (file) {
+        //window.location.reload();
+        //showNotification('Completed', 'All product images uploaded', 'success', 'fa-check');
+    });
+    
+    $('#btn-upload').click(function(){
+        if (myDropzone.files.length === 0) {
+            //showNotification('Error', 'Please select files to upload.', 'danger', 'fa-close');
+        } else {
+            myDropzone.processQueue();
+        }
+    });    
   }
 
 });

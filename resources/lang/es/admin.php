@@ -20,6 +20,12 @@ return [
     'newproduct' => 'Nuevo producto',
     'editproduct' => 'Editar producto',
     'categories' => 'Categorías',
-    'newcategory' => 'Nueva categoría'
-
+    'newcategory' => 'Nueva categoría',
+    'editcategory' => 'Editar categoría',
+    'attributes' => 'Atributos',
+    'newattribute' => 'Nuevo atributo',
+    'editattribute' => 'Editar atributo',
+    'attributegroups' => 'Grupos de atributos',
+    'newattributegroup' => 'Nuevo grupo de atributos',
+    'editattributegroup' => 'Editar grupo de atributos',
 ];

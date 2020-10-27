@@ -109,8 +109,9 @@
         </nav>
         <!-- End of Topbar -->
 
+        <!-- Begin Page Content -->
         <div class="container-fluid">
-          @include('Admin.Flash')
+
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">@yield('headtitle')</h1>
@@ -119,12 +120,11 @@
             @show
             </div>
           </div>
-        </div>
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
           @section('content')
           @show          
+
+          @include('Admin.Flash')
 
         </div>
         <!-- /.container-fluid -->

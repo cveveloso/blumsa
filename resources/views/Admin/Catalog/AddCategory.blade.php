@@ -40,7 +40,7 @@ $firstPanel = 'active show';
 					<div class="input-group-prepend">
 						<div class="input-group-text"><i class="fa fa-pencil-alt" aria-hidden="true"></i></div>			
 					</div>
-					{!! Form::text('code', null, ['class' => 'form-control' . ($errors->has('code') ? ' border-danger' : '')]) !!}					
+					{!! Form::text('code', old('code', ''), ['class' => 'form-control' . ($errors->has('code') ? ' border-danger' : '')]) !!}					
 				</div>
 				@php 					
 			  	if ($errors->has('code')) { 
@@ -53,15 +53,15 @@ $firstPanel = 'active show';
 					<div class="input-group-prepend">
 						<div class="input-group-text"><i class="fa fa-pencil-alt" aria-hidden="true"></i></div>			
 					</div>
-					{!! Form::select('parent', $comboCategories, null, ['class' =>'form-control'])  !!}
+					{!! Form::select('parent', $comboCategories, old('parent', '0'), ['class' =>'form-control'])  !!}
 				</div>
 
-				<label class="w-100 mt-2" for="sortorder">Orden: </label>
+				<label class="w-100 mt-2" for="sort_order">Orden: </label>
 				<div class="input-group mb-2">
 					<div class="input-group-prepend">
 						<div class="input-group-text"><i class="fa fa-pencil-alt" aria-hidden="true"></i></div>		
 					</div>
-					{!! Form::number('sort_order', '0', ['class' =>'form-control' . ($errors->has('sort_order') ? ' border-danger' : '')])  !!}
+					{!! Form::number('sort_order', old('sort_order', ''), ['class' =>'form-control' . ($errors->has('sort_order') ? ' border-danger' : '')])  !!}
 				</div>
 				@php 					
 			  	if ($errors->has('sort_order')) { 
@@ -71,7 +71,7 @@ $firstPanel = 'active show';
 				
 				<label class="mt-2 float-left" for="status">Habilitado: </label>
 				<div class="input-group w-50 float-left ml-2 pt-2 mt-1">
-					{!! Form::checkbox('status', 'status', true, ['class' =>''])  !!}
+					{!! Form::checkbox('status', 'status', old('status', true), ['class' =>''])  !!}
 				</div>      			
       		</div>
       		<div class="tab-pane fade" id="panel-data" role="tabpanel" aria-labelledby="tab-data">
@@ -94,7 +94,7 @@ $firstPanel = 'active show';
 						<div class="input-group-prepend">
 							<div class="input-group-text"><i class="fa fa-pencil-alt" aria-hidden="true"></i></div>
 						</div>
-						{!! Form::text('name-' . $key, null, ['class' =>'form-control' . ($errors->has('name-' . $key) ? ' border-danger' : '')]) !!}
+						{!! Form::text('name-' . $key, old('name-' . $key, ''), ['class' =>'form-control' . ($errors->has('name-' . $key) ? ' border-danger' : '')]) !!}
 					</div>
 					@php 					
 				  	if ($errors->has('name-' . $key)) { 
@@ -107,7 +107,7 @@ $firstPanel = 'active show';
 						<div class="input-group-prepend">
 							<div class="input-group-text"><i class="fa fa-pencil-alt" aria-hidden="true"></i></div>			
 						</div>
-						{!! Form::textarea('description-' . $key, null, ['class' =>'form-control w-100 summernote' . ($errors->has('description-' . $key) ? ' border-danger' : ''), 'rows' => 4]) !!}
+						{!! Form::textarea('description-' . $key, old('description-' . $key, ''), ['class' =>'form-control w-100 summernote' . ($errors->has('description-' . $key) ? ' border-danger' : ''), 'rows' => 6]) !!}
 					</div>
 					@php 					
 				  	if ($errors->has('description-' . $key)) { 

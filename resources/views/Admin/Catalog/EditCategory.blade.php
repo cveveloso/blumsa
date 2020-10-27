@@ -5,10 +5,12 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ url('public/static/vendors/summernote/summernote.min.css') }}" />  
+    <link rel="stylesheet" href="{{ url('public/static/vendors/dropzone/dist/dropzone.css') }}" />  
 @endpush
 
 @push('scripts')
-    <script type="text/javascript" src="{{ url('public/static/vendors/summernote/summernote.min.js') }}"></script>    
+    <script type="text/javascript" src="{{ url('public/static/vendors/summernote/summernote.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url('public/static/vendors/dropzone/dist/dropzone.js') }}"></script>
 @endpush
 
 @section('toolbar')
@@ -28,7 +30,8 @@ $firstPanel = 'active show';
 	<div class="col-md-3 col-xs-12">
 	    <div class="nav flex-column nav-pills" id="adminTab" role="tablist" aria-orientation="vertical">
 	      <a class="nav-link active" id="tab-general" data-toggle="pill" href="#panel-general" role="tab" aria-controls="panel-general" aria-selected="true">General</a>
-	      <a class="nav-link" id="tab-data" data-toggle="pill" href="#panel-data" role="tab" aria-controls="panel-data" aria-selected="false">Datos</a>	      
+	      <a class="nav-link" id="tab-data" data-toggle="pill" href="#panel-data" role="tab" aria-controls="panel-data" aria-selected="false">Datos</a>
+	      <a class="nav-link" id="tab-images" data-toggle="pill" href="#panel-images" role="tab" aria-controls="panel-images" aria-selected="false">Imagenes</a>
 	    </div>
   	</div>
 	<div class="col-md-9 col-xs-12">		
@@ -55,7 +58,7 @@ $firstPanel = 'active show';
 					{!! Form::select('parent', $comboCategories, old('parent', $category->id_parent), ['class' =>'form-control'])  !!}
 				</div>
 
-				<label class="w-100 mt-2" for="sortorder">Orden: </label>
+				<label class="w-100 mt-2" for="sort_order">Orden: </label>
 				<div class="input-group mb-2">
 					<div class="input-group-prepend">
 						<div class="input-group-text"><i class="fa fa-pencil-alt" aria-hidden="true"></i></div>		
@@ -122,13 +125,52 @@ $firstPanel = 'active show';
 				  @endphp
 				  @endforeach
 				</div>
+      		</div>
 
+      		{!! Form::close() !!}
+
+      		<div class="tab-pane fade" id="panel-images" role="tabpanel" aria-labelledby="tab-images">
+      			<div class="tile">
+                    <h3 class="tile-title">Subir imagenes</h3>
+                    <hr>
+                    <div class="tile-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                            	{!! Form::open(['url' => '/admin/catalog/category/images/upload', 'class' => 'dropzone', 'id' => 'dropzone']) !!}
+                                	{{ Form::hidden('category', $category->id_category) }}
+                                {!! Form::close() !!}
+                            </div>
+                        </div>
+                        <div class="row d-print-none mt-2">
+                            <div class="col-12 text-right">
+                                <button class="btn btn-success" type="button" id="btn-upload">
+                                    <i class="fa fa-fw fa-lg fa-upload"></i>Subir
+                                </button>
+                            </div>
+                        </div>
+                        @if ($category->Images)
+                            <hr>
+                            <div class="row">
+                                @foreach($category->Images as $image)
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <img src="{{ public_path() . $image->path }}" class="img-fluid" alt="img">
+                                                <a class="card-link float-right text-danger" href="{{ url('/admin/catalog/category/images/delete/' . $image->id) }}">
+                                                    <i class="fa fa-fw fa-lg fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                </div>
       		</div>
       	</div>		
 	</div>
 </div>
-
-{!! Form::close() !!}
 
 @stop
 
