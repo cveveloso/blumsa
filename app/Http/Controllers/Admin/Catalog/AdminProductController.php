@@ -51,7 +51,7 @@ class AdminProductController extends BaseController
 		$rules = array();
 		$rules['sku'] = 'required';
 		$rules['category'] = 'required';
-    	$rules['modelo'] = 'required';
+    	//$rules['modelo'] = 'required';
 		
 		/*
 		foreach(array_keys(Config::get('languages')) as $key) {
@@ -79,10 +79,14 @@ class AdminProductController extends BaseController
 	
     public function EditProducts(Request $request, $id) {		
     	if ($request->method() == 'GET') {	
+
 			$productsEdit = $this->productRepository->FindProductById($id);
 			$productsEditDescription = $this->productRepository->FindProductDescriptionById($id);
 
 			$categories = $this->categoryRepository->ListCategories('code', 'asc', ['code', 'id_category']);
+			$atributesGroup = $this->productRepository->ListGroupAttribute();
+			$atributes = $this->productRepository->ListAttribute();			
+			$attributeByProduct = $this->productRepository->AttributeByProduct($id);	
     		
     		$comboCategories = array();
     		$comboCategories['0'] =  'Sin categoría padre';
@@ -93,7 +97,10 @@ class AdminProductController extends BaseController
 			return view('Admin.Catalog.EditProducts', [
 				'product' => $productsEdit,
 				'productDescription'=> $productsEditDescription,
-				'comboCategories' => $comboCategories
+				'comboCategories' => $comboCategories,
+				'listGroupAttribute' => $atributesGroup,	
+				'listAttribute' => $atributes,	
+				'attributeByProduct' => $attributeByProduct		
 			]);						
 		}
 		
@@ -101,7 +108,7 @@ class AdminProductController extends BaseController
 		$rules = array();
 		$rules['sku'] = 'required';
 		$rules['category'] = 'required';
-		$rules['modelo'] = 'required';
+		//$rules['modelo'] = 'required';
 
     	foreach(array_keys(Config::get('languages')) as $key) {
 			$rules['name-' . $key] = 'required';

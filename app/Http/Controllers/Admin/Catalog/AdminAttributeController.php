@@ -105,12 +105,15 @@ class AdminAttributeController extends BaseController
 
     	$rules = array();    	
     	$rules['group'] = 'required';
-    	$rules['sort_order'] = 'required|numeric';
+		$rules['sort_order'] = 'required|numeric';
+		$rules['data_type'] = 'required';
+		$rules['unit'] = 'required';			
     	foreach(array_keys(Config::get('languages')) as $key) {
 			$rules['name-' . $key] = 'required';
 		}
 
 		$validator = Validator::make($request->all(), $rules);
+
     
 	    if ($validator->fails()) {	    	
 	    	return $this->responseRedirectBack('Ocurrio un problema al guardar el atributo.', 'error', true, true, $validator->errors());
@@ -146,7 +149,9 @@ class AdminAttributeController extends BaseController
 
     	$rules = array();
     	$rules['group'] = 'required';
-    	$rules['sort_order'] = 'required|numeric';    	
+		$rules['sort_order'] = 'required|numeric';    
+		$rules['data_type'] = 'required';
+		$rules['unit'] = 'required';	
     	foreach(array_keys(Config::get('languages')) as $key) {
 			$rules['name-' . $key] = 'required';
 		}

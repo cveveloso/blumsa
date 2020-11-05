@@ -10,10 +10,10 @@ class Product extends Model
     protected $primaryKey = 'id_product';
     public $incrementing = true;
 
-    public function Descriptions(string $language = null)
+    public function Descriptions(int $id = null,string $language = null)
     {
-        if ($language != null) {
-            return $this->hasMany(ProductDescription::class, 'id_product', 'id_product')->where('language', '=', $language)->first();
+        if ($id != null) {
+            return $this->hasMany(ProductDescription::class, 'id_product', 'id_product')->where('language', '=', $language)->where('id_product', '=', $id)->first();
         }
         return $this->hasMany(ProductDescription::class, 'id_product', 'id_product');        
     }  
@@ -76,6 +76,13 @@ class ProductAttribute extends Model
 {
     protected $table = 'attribute';
     protected $primaryKey = 'id_attribute';
+    public $incrementing = true;
+    public $timestamps = false;
+}
+
+class ProductyAttribute extends Model
+{
+    protected $table = 'product_attribute';
     public $incrementing = true;
     public $timestamps = false;
 }
