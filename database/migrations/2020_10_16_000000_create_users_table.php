@@ -21,8 +21,12 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->bigInteger('id_customer')->unsigned()->nullable();
+            $table->boolean('status')->default(0);
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('id_customer')->references('id_customer')->on('customer')->onDelete('cascade');
         });
     }
 

@@ -7,14 +7,18 @@ use Auth, Config, Validator, Str;
 use App\Http\Controllers\BaseController;
 use App\Contracts\Catalog\CategoryContract;
 use App\Contracts\Catalog\ProductContract;
+use App\Models\Catalog\ProductImage;
+use App\Traits\UploadAble;
 
 class AdminProductController extends BaseController
 {
+	use UploadAble;
+	
 	public function __construct(CategoryContract $categoryRepository, ProductContract $productRepository) {
 		$this->middleware('auth');
 		$this->middleware('validate.admin');
 		$this->categoryRepository = $categoryRepository;		
-		$this->productRepository = $productRepository;		
+		$this->productRepository = $productRepository;			
 	}
 
     public function ListProducts(Request $request) {	
@@ -24,24 +28,30 @@ class AdminProductController extends BaseController
     	}
 	}
 	
+	
 	public function AddProducts(Request $request) {
     	if ($request->method() == 'GET') {	
 			//para llenar el combo de categorias begin
     		$categories = $this->categoryRepository->ListCategories('code', 'asc', ['code', 'id_category']);
-    		
+			$atributesGroup = $this->productRepository->ListGroupAttribute();
+			$atributes = $this->productRepository->ListAttribute();
+			
     		$comboCategories = array();
     		foreach ($categories as $category) {
     			$comboCategories[$category->id_category] =  $category->name;
 			}
 			//para llenar el combo de categorias end	
-			return view('Admin.Catalog.AddProducts',['comboCategories' => $comboCategories]);
+			return view('Admin.Catalog.AddProducts',['comboCategories' => $comboCategories,
+			'listGroupAttribute' => $atributesGroup,
+			'listAttribute' => $atributes
+			]);
 		}
 		
 		// Validaciones begin
 		$rules = array();
 		$rules['sku'] = 'required';
 		$rules['category'] = 'required';
-    	$rules['modelo'] = 'required';
+    	//$rules['modelo'] = 'required';
 		
 		/*
 		foreach(array_keys(Config::get('languages')) as $key) {
@@ -69,10 +79,14 @@ class AdminProductController extends BaseController
 	
     public function EditProducts(Request $request, $id) {		
     	if ($request->method() == 'GET') {	
+
 			$productsEdit = $this->productRepository->FindProductById($id);
 			$productsEditDescription = $this->productRepository->FindProductDescriptionById($id);
 
 			$categories = $this->categoryRepository->ListCategories('code', 'asc', ['code', 'id_category']);
+			$atributesGroup = $this->productRepository->ListGroupAttribute();
+			$atributes = $this->productRepository->ListAttribute();			
+			$attributeByProduct = $this->productRepository->AttributeByProduct($id);	
     		
     		$comboCategories = array();
     		$comboCategories['0'] =  'Sin categoría padre';
@@ -83,7 +97,10 @@ class AdminProductController extends BaseController
 			return view('Admin.Catalog.EditProducts', [
 				'product' => $productsEdit,
 				'productDescription'=> $productsEditDescription,
-				'comboCategories' => $comboCategories
+				'comboCategories' => $comboCategories,
+				'listGroupAttribute' => $atributesGroup,	
+				'listAttribute' => $atributes,	
+				'attributeByProduct' => $attributeByProduct		
 			]);						
 		}
 		
@@ -91,7 +108,7 @@ class AdminProductController extends BaseController
 		$rules = array();
 		$rules['sku'] = 'required';
 		$rules['category'] = 'required';
-		$rules['modelo'] = 'required';
+		//$rules['modelo'] = 'required';
 
     	foreach(array_keys(Config::get('languages')) as $key) {
 			$rules['name-' . $key] = 'required';
@@ -113,5 +130,23 @@ class AdminProductController extends BaseController
 		}
         
         return $this->responseRedirect('/admin/catalog/products/edit/', 'Producto actualizado con éxito.' ,'success', false, false,[$id]);				
-    }	
+	}
+	
+    public function UploadImagesProduct(Request $request) {
+		$product = $this->productRepository->FindProductById($request->product);
+
+		if($product) {
+		   if ($request->has('image')) {
+
+			   $image = $this->uploadOne($request->image, 'product');
+
+			   $productImage = new ProductImage();
+			   $productImage->path = $image;
+
+			   $product->Images()->save($productImage);
+		   }
+	   }
+
+	   return response()->json(['status' => 'Success']);
+   }	
 }

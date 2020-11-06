@@ -11,6 +11,10 @@ use App\Contracts\Catalog\AttributeGroupContract;
 use App\Repositories\Catalog\AttributeGroupRepository;
 use App\Contracts\Catalog\AttributeContract;
 use App\Repositories\Catalog\AttributeRepository;
+use App\Contracts\UserContract;
+use App\Repositories\UserRepository;
+use App\Contracts\CustomerContract;
+use App\Repositories\CustomerRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -18,7 +22,9 @@ class RepositoryServiceProvider extends ServiceProvider
         CategoryContract::class        =>          CategoryRepository::class,
         AttributeGroupContract::class  =>          AttributeGroupRepository::class,
         AttributeContract::class       =>          AttributeRepository::class,
-        ProductContract::class         =>          ProductRepository::class
+        ProductContract::class         =>          ProductRepository::class,
+        UserContract::class            =>          UserRepository::class,
+        CustomerContract::class        =>          CustomerRepository::class,
     ];
 
     /**

@@ -23,7 +23,6 @@
     @lang('admin.catalog')
   </div>
 
-  <!-- Nav Item - Pages Collapse Menu -->
   <li class="nav-item">
     <a class="nav-link" href="{{ url('/admin/catalog/products/list') }}">
       <i class="fas fa-fw fa-cog"></i>
@@ -37,7 +36,6 @@
     </div>
   </li>
 
-  <!-- Nav Item - Utilities Collapse Menu -->
   <li class="nav-item">
     <a class="nav-link" href="{{ url('/admin/catalog/category/') }}">
       <i class="fas fa-fw fa-map"></i>
@@ -56,6 +54,28 @@
         <a class="collapse-item" href="{{ url('/admin/catalog/attribute') }}">@lang('admin.attributes')</a>
       </div>
     </div>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider d-none d-md-block">
+
+  <!-- Heading -->
+  <div class="sidebar-heading">
+    @lang('admin.users')
+  </div>
+
+  <li class="nav-item">
+    <a class="nav-link" href="{{ url('/admin/user') }}">
+      <i class="fas fa-fw fa-user"></i>
+      <span>@lang('admin.users')</span>
+    </a>    
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="{{ url('/admin/customer') }}">
+      <i class="fas fa-fw fa-user"></i>
+      <span>@lang('admin.customers')</span>
+    </a>    
   </li>
 
   <!-- Divider -->

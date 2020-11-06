@@ -1,5 +1,3 @@
-Dropzone.autoDiscover = false;
-
 $( document ).ready(function() {
 
   // Toggle the side navigation
@@ -67,6 +65,8 @@ $( document ).ready(function() {
   }
 
   if ($('.dropzone').length) {
+    Dropzone.autoDiscover = false;
+    
     let myDropzone = new Dropzone("#dropzone", {
         paramName: "image",
         addRemoveLinks: false,
@@ -87,7 +87,9 @@ $( document ).ready(function() {
         } else {
             myDropzone.processQueue();
         }
-    });    
+    });
   }
+
+  $(".select2").select2();
 
 });

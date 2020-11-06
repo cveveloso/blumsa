@@ -87,6 +87,8 @@ class AttributeRepository extends BaseRepository implements AttributeContract
             $attribute = new Attribute;
             $attribute->id_attribute_group = $params['group'];
             $attribute->sort_order = $params['sort_order'];
+            $attribute->data_type = $params['data_type'];
+            $attribute->unit = $params['unit'];
             $attribute->save();            
             
             foreach(array_keys(Config::get('languages')) as $key) {
@@ -116,6 +118,8 @@ class AttributeRepository extends BaseRepository implements AttributeContract
             if ($attribute != null) {
                 $attribute->id_attribute_group = $params['group'];
                 $attribute->sort_order = $params['sort_order'];
+                $attribute->data_type = $params['data_type'];
+                $attribute->unit = $params['unit'];                
                 $attribute->update();
 
                 foreach(array_keys(Config::get('languages')) as $key) {

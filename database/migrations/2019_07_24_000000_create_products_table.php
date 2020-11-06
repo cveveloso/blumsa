@@ -16,7 +16,9 @@ class CreateProductsTable extends Migration
         Schema::create('product', function (Blueprint $table) {
             $table->bigIncrements('id_product');
             $table->string('sku');
-            $table->string('model');
+            $table->float('price')->nullable();
+            $table->integer('discount')->default(0);     
+            $table->boolean('enabled')->default(0); 
             $table->timestamps();
         });
 
@@ -28,7 +30,26 @@ class CreateProductsTable extends Migration
             $table->timestamps();
 
             $table->foreign('id_product')->references('id_product')->on('product')->onDelete('cascade');
-        });                 
+        });    
+        
+        Schema::create('product_image', function (Blueprint $table) {
+            $table->id('id_product_image');
+            $table->bigInteger('id_product')->unsigned();            
+            $table->string('path');            
+            $table->timestamps();
+
+            $table->foreign('id_product')->references('id_product')->on('product')->onDelete('cascade');
+        });   
+        
+        Schema::create('product_attribute', function (Blueprint $table) {
+            $table->bigInteger('id_product')->unsigned();
+            $table->string('name_attribute');
+            $table->string('value_attribute')->nullable();
+            $table->string('lang');
+            $table->timestamps();
+
+            $table->foreign('id_product')->references('id_product')->on('product')->onDelete('cascade');
+        });        
     }
 
     /**
@@ -37,8 +58,10 @@ class CreateProductsTable extends Migration
      * @return void
      */
     public function down()
-    {
-        Schema::dropIfExists('product');
-        Schema::dropIfExists('product_description');
+    {   
+        Schema::dropIfExists('product_image');
+        Schema::dropIfExists('product_description'); 
+        Schema::dropIfExists('product_attribute');  
+        Schema::dropIfExists('product');                  
     }
 }

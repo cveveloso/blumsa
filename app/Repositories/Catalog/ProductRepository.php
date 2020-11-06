@@ -9,6 +9,10 @@ use App\Contracts\Catalog\ProductContract;
 use App\Models\Catalog\Product;
 use App\Models\Catalog\ProductDescription;
 use App\Models\Catalog\ProductCategory;
+use App\Models\Catalog\ProductImage;
+use App\Models\Catalog\ProductAttributeGroup;
+use App\Models\Catalog\ProductAttribute;
+use App\Models\Catalog\ProductyAttribute;
 
 use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
@@ -45,8 +49,10 @@ class ProductRepository extends BaseRepository implements ProductContract
 
             // Inserto el nuevo producto begin
             $products = new Product;
-            $products->sku = Str::slug(e($params['sku']));
-            $products->model = Str::slug(e($params['modelo']));
+            $products->sku = e($params['sku']);
+            $products->price = e($params['price']);
+            $products->discount = e($params['discount']);
+            $products->enabled = (array_key_exists('enabled', $params) ? 1 : 0);
             $products->save();     
             // Inserto el nuevo producto end
             
@@ -68,7 +74,19 @@ class ProductRepository extends BaseRepository implements ProductContract
             $productsCategories->save();
             // Cargo la categoria asociada al producto end
 
-            return $products;
+            // Cargo los attributos begin
+            foreach($this->ListAttribute() as $attr)
+            {
+                $productsAttribute = new ProductyAttribute;
+                $productsAttribute->id_product = $products->id_product; 
+                $productsAttribute->name_attribute = $attr->name;
+                $productsAttribute->value_attribute = e($params["attr-". $attr->id_attribute . "-" . $attr->language]);
+                $productsAttribute->lang = $attr->language;    
+                $productsAttribute->save();        
+            }
+            // Cargo los attributos end
+            
+        return $products;
 
         } catch (QueryException $exception) {
             throw new InvalidArgumentException($exception->getMessage());
@@ -82,8 +100,10 @@ class ProductRepository extends BaseRepository implements ProductContract
 
             //Actualizco SKU y Modelo 
             if ($products != null) {
-                $products->sku = Str::slug(e($params['sku']));
-                $products->model = Str::slug(e($params['modelo']));
+                $products->sku = e($params['sku']);
+                $products->price = e($params['price']);
+                $products->discount = e($params['discount']);  
+                $products->enabled = (array_key_exists('enabled', $params) ? 1 : 0);                              
                 $products->update();                             
             }
 
@@ -91,11 +111,30 @@ class ProductRepository extends BaseRepository implements ProductContract
             $productsCat = $products->Categories($id);   
             $productsCat::where('id_product', $id)->update(array("id_category"=> e($params['category'])));
 
-            //Actualizco Nombre y Descripciones
+
+            // Actualizo las descripciones del producto begin
             foreach(array_keys(Config::get('languages')) as $key) {
-                $productsDesc = $products->Descriptions($key);                   
-                $productsDesc::where('id_product', $id)->update(array("name"=> e($params['name' . '-' .  $key]),"description"=>e($params['description' . '-' .  $key])));                
-            }     
+                $productsDesc = $products->Descriptions($id,$key);
+                $productsDesc->name = e($params['name' . '-' .  $key]);
+                $productsDesc->description = e($params['description' . '-' .  $key]);
+                $productsDesc::where('id_product', $id)->where('language', $key)->update(array("name"=> e($params['name' . '-' .  $key]),"description"=>e($params['description' . '-' .  $key])));                
+            }            
+            // Actualizo las descripciones del producto  end  
+            
+            // Actualizo los atributos begin (borro y vuelvo a cargar)           
+            $productsAttribute = ProductyAttribute::where('id_product','=',$id);
+            $productsAttribute->delete();
+
+            foreach($this->ListAttribute() as $attr)
+            {
+                $productsAttribute = new ProductyAttribute;
+                $productsAttribute->id_product = $products->id_product; 
+                $productsAttribute->name_attribute = $attr->name;
+                $productsAttribute->value_attribute = e($params["attr-". $attr->id_attribute . "-" . $attr->language]);
+                $productsAttribute->lang = $attr->language;    
+                $productsAttribute->save();        
+            }
+            // Actualizo los atributos end
 
             return $products;
 
@@ -128,6 +167,46 @@ class ProductRepository extends BaseRepository implements ProductContract
             throw new ModelNotFoundException($e);
         }
     }  
+
+    public function ListGroupAttribute()
+    {
+        try {                        
+            $product = new ProductAttributeGroup;
+            $productGroupAttribute = $product->all();
+            return $productGroupAttribute;
+        } catch (ModelNotFoundException $e) {
+            throw new ModelNotFoundException($e);
+        }
+    }  
+
+    public function ListAttribute()
+    {
+        try {                        
+            $productAttribute = ProductAttribute::selectRaw('attribute.id_attribute,
+                                                             attribute.id_attribute_group,
+                                                             attribute.data_type,
+                                                             attribute.unit,
+                                                             attribute_description.language,
+                                                             CASE attribute.data_type WHEN "number" THEN "step=0.001" ELSE "" END as step,
+                                                             attribute_description.name')->join('attribute_description', 
+                                                                                                'attribute.id_attribute', '=', 
+                                                                                                'attribute_description.id_attribute')->get();
+            return $productAttribute;
+        } catch (ModelNotFoundException $e) {
+            throw new ModelNotFoundException($e);
+        } 
+    }
+    
+    public function AttributeByProduct(int $id)
+    {
+        try {                        
+            $product = new ProductyAttribute;
+            $productAttr= $product::where('id_product', '=', $id)->get();
+            return $productAttr;
+        } catch (ModelNotFoundException $e) {
+            throw new ModelNotFoundException($e);
+        }
+    }
     
     public function FindProductCategoryById(int $id)
     {

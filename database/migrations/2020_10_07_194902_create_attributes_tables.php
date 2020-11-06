@@ -33,6 +33,8 @@ class CreateAttributesTables extends Migration
             $table->id('id_attribute');
             $table->bigInteger('id_attribute_group')->unsigned();
             $table->integer('sort_order')->default(0);
+            $table->string("data_type")->default("");
+            $table->string("unit")->default("");
             $table->timestamps();
 
             $table->foreign('id_attribute_group')->references('id_attribute_group')->on('attribute_group')->onDelete('cascade'); 

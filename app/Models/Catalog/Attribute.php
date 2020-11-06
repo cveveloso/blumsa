@@ -19,6 +19,11 @@ class Attribute extends Model
         }
         return $this->hasMany(AttributeDescription::class, 'id_attribute', 'id_attribute');
     }    
+
+    public function Group()
+    {
+        return $this->belongsTo(AttributeGroup::class, 'id_attribute_group');
+    }
 }
 
 class AttributeDescription extends Model

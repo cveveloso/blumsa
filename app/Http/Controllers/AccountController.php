@@ -33,7 +33,7 @@ class AccountController extends Controller
 	    }
 	    else {
 	    	if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], true)) {
-	    		return redirect('/')
+	    		return redirect('/admin')
 	    			->with('message', 'Usuario ingreso con exito')
 	    			->with('typemessage', 'success');
 	    	}
