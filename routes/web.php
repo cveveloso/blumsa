@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\Catalog\AdminAttributeController;
 use App\Http\Controllers\Admin\Catalog\AdminProductController;
 use App\Http\Controllers\Admin\User\AdminUserController;
 use App\Http\Controllers\Admin\User\AdminCustomerController;
+use App\Http\Controllers\Shop\SelectionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,9 @@ Route::get('/account/register', [AccountController::class, 'Register']);
 Route::post('/account/register', [AccountController::class, 'Register']);
 Route::get('/account/forgotpassword', [AccountController::class, 'ForgotPassword']);
 Route::get('/account/logout', [AccountController::class, 'Logout']);
+
+//Shop (Categories)
+Route::get('/category/{slug}', [SelectionController::class, 'Category'])->name('/category');
 
 //Admin
 Route::get('/admin', [AdminController::class, 'Dashboard'])->name('/admin');

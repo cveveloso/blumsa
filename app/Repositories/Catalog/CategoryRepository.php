@@ -47,7 +47,7 @@ class CategoryRepository extends BaseRepository implements CategoryContract
         
         if ($descriptions) {
             foreach ($categories as $category) {
-                $description = $category->Descriptions(Config::get('app.locale'))                     ;
+                $description = $category->Descriptions(Config::get('app.locale'));
                 $category->name = $description->name;
                 $category->description = $description->description;
             }
@@ -185,5 +185,17 @@ class CategoryRepository extends BaseRepository implements CategoryContract
             ->where('slug', $slug)
             ->where('menu', 1)
             ->first();
+    }
+
+    public function FindCategoryBySlug($slug)
+    {
+        return Category::with('descriptions')
+            ->where('slug', $slug)
+            ->first();
+    }
+
+    public function GetCategoriesTree()
+    {
+        return Category::where('level', '=', 0)->get();
     }
 }
